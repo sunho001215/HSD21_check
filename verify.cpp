@@ -19,10 +19,16 @@ int main(void)
 	float* output = new float[data_size_M];	//for output	
 	float* output_fpga = new float[data_size_M]; // for fpga output
 
-	for(int i = 0 ; i < data_size_M*2 ; ++i)
-		flat[i] = ((float)rand()) / RAND_MAX;
+	//for(int i = 0 ; i < data_size_M*2 ; ++i)
+	//	flat[i] = ((float)rand()) / RAND_MAX;
+	
+	for(int i = 0; i < data_size_M; i++){
+		flat[i] = (float)(i % 10) + 1;
+		flat[i+data_size_M] = (float)(i % 10) + 1;
+	}
 
 	// computation
+	
 	for(int i = 0; i < v_size; ++i)
 	{
 		for(int j = 0; j < v_size; ++j){    
@@ -38,10 +44,10 @@ int main(void)
 	dev.largeMM(mat, input, output_fpga, v_size, v_size, v_size);
 
 	// display
-	printf("%-10s%-10s%-10s\n", "index", "CPU", "FPGA");
+	printf("%-10s%-15s%-15s\n", "index", "CPU", "FPGA");
 	for (int i = 0; i < data_size_M; i++)
 	{
-		printf("%-10d%-10f%-10f%\n", i, output[i], output_fpga[i]);
+		printf("%-10d%-15f%-15f%\n", i, output[i], output_fpga[i]);
 	}
 
 	delete[] flat;
